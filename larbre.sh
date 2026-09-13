@@ -392,6 +392,7 @@ rc-manager=symlink
 
 [device]
 wifi.scan-rand-mac-address=yes
+wifi.backend=iwd
 
 [connection]
 ethernet.cloned-mac-address=random

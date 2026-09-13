@@ -19,14 +19,17 @@ A,iio-hyprland-git,"is a daemon to enable automatic rotation using iio-proxy-sen
 ,dmidecode,"is a Desktop Management Interface table decoder"
 ,i2c-tools,"provides I2C bus tools"
 ,powertop,"is a power consumption analyzer"
+,ddcutil,"controls external monitor settings via DDC/CI"
 ,vulkan-intel,"provides Intel Vulkan drivers"
+,intel-media-driver,"provides VAAPI hardware acceleration for Intel GPUs"
 ,qt5-wayland,"provides Qt5 Wayland integration"
 ,nwg-displays,"is an output management utility for Hyprland"
 ,nwg-look,"is a GTK settings editor for Wayland"
 ,swappy,"is a Wayland screenshot editor"
+,wf-recorder,"is a screen recorder for wlroots-based Wayland compositors"
 ,chafa,"provides terminal graphics for the 21st century"
 ,wtype,"is a Wayland keyboard input tool"
-,python-pipx,"installs Python applications in isolated environments"
+,uv,"is a fast Python package and project manager"
 ,python-adblock,"is the Brave adblock python library for adblocking in qutebrowser"
 ,python-qrcode,"is a QR code generator library"
 ,tesseract,"is an OCR engine"
@@ -49,13 +52,27 @@ A,iio-hyprland-git,"is a daemon to enable automatic rotation using iio-proxy-sen
 ,docker-buildx,"is the Docker Buildx plugin"
 ,gcc-fortran,"provides GNU Fortran compiler"
 ,go,"is the Go programming language"
+,rust,"is a multi-paradigm, general-purpose programming language"
+,sccache,"is a ccache-like tool i use for rust"
 ,meson,"is a build system"
-,pre-commit,"is a framework for managing pre-commit hooks"
-A,vscodium-insiders-bin,"provides free/libre open source binaries of VSCode"
+,reuse,"helps ensure REUSE/license compliance in projects"
+A,vscodium-bin,"provides free/libre open source binaries of VSCode"
 A,agru,"is a fast ansible-galaxy replacement"
+
+# Kubernetes
+,kubectl,"is the Kubernetes command-line tool"
+,helm,"is the Kubernetes package manager"
+,k9s,"is a terminal UI to interact with Kubernetes clusters"
+,kind,"runs local Kubernetes clusters using Docker"
+
+# Security
+,arch-audit,"checks installed packages against Arch's CVE database"
+,lynis,"is a security auditing tool"
+,rkhunter,"is a rootkit hunter"
 
 # Network tools
 ,nmap,"is a network exploration tool"
+,networkmanager-openvpn,"is the OpenVPN plugin for NetworkManager"
 ,openbsd-netcat,"is the OpenBSD netcat"
 ,tcpdump,"is a network packet analyzer"
 ,wireshark-qt,"is a network protocol analyzer"
@@ -80,6 +97,7 @@ A,waydroid,"is an Android container for Linux"
 ,steam,"is a gaming platform"
 ,luanti,"is a voxel game and game creation platform"
 ,gnome-chess,"is a chess game for GNOME"
+A,rpcs3-bin,"is a PlayStation 3 emulator"
 
 # Browsers
 ,firefox,"is a web browser"
@@ -87,6 +105,7 @@ A,waydroid,"is an Android container for Linux"
 ,torbrowser-launcher,"is the Tor Browser launcher"
 
 # Media & productivity
+,libreoffice-still,"is a stable office suite"
 ,mixxx,"is DJ software"
 ,nsxiv,"is Neo Simple X Image Viewer"
 ,xournalpp,"is handwriting notetaking software"
@@ -102,6 +121,8 @@ A,waydroid,"is an Android container for Linux"
 ,texlive-latexextra,"provides extra LaTeX TeX Live packages"
 
 # Extra CLI
+,bc,"is a mathematics language used for calculations"
+,pigz,"is parallel gzip"
 ,htop,"is an interactive process viewer"
 ,nvtop,"is a GPU process monitor"
 ,ncdu,"is a disk usage analyzer"
