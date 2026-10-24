@@ -1,10 +1,14 @@
-# LARBRE - Arch Linux Auto Setup
+# LARBRE
 
-Automated post-installation script for Arch Linux that installs and configures a complete Hyprland desktop environment.
+![Arch Linux](https://img.shields.io/badge/Arch_Linux-black?logo=archlinux&logoColor=white)
+![Hyprland](https://img.shields.io/badge/Hyprland-58E1FF?logo=hyprland&logoColor=black)
+![Shell](https://img.shields.io/badge/POSIX_sh-4EAA25?logo=gnubash&logoColor=white)
 
-![screenshot](assets/screenshot.png) 
+Arch Linux auto-setup: one post-install script for a complete Hyprland desktop.
 
-## Quick Start
+![screenshot](assets/screenshot.png)
+
+## Quick start
 
 1. **Install Arch Linux** (follow [install guide](install_arch.md))
 2. **Run the script as root:**
@@ -20,12 +24,12 @@ Automated post-installation script for Arch Linux that installs and configures a
 
 - Creates a new user account
 - Installs packages (desktop environment, applications, development tools)
-- Deploys my personal [dotfiles](https://github.com/sudo-Tiz/dotfilesV2)
+- Deploys my [dotfiles](https://github.com/sudo-Tiz/dotfilesV2)
 - Configures battery monitoring for laptops
 - Sets up secure DNS and network privacy
 - Sets up Minecraft theme for GRUB and Plymouth
 
-## Stack
+## Desktop
 
 | Role | App |
 |------|-----|
@@ -34,7 +38,6 @@ Automated post-installation script for Arch Linux that installs and configures a
 | Terminal | Foot |
 | Editor | Neovim |
 | File manager | Yazi |
-
 
 Full package list in [essential-progs.csv](essential-progs.csv) and [additional-progs.csv](additional-progs.csv).
 
@@ -72,9 +75,11 @@ G,https://github.com/user/repo.git,"is a git program"
 - `A` = AUR
 - `G` = Git repository (make install)
 
-## Other Versions
+## Related
 
-- **Xorg branch:** [xorg branch](https://github.com/sudo-Tiz/LARBRE/tree/Xorg) (unmaintained)
+- [LARBUSTE](https://github.com/sudo-Tiz/LARBUSTE) — Minimal dotfiles for any Linux box
+- [JARDIN](https://github.com/sudo-Tiz/JARDIN) — Ansible self-hosting playbooks
+- [Xorg branch](https://github.com/sudo-Tiz/LARBRE/tree/Xorg) (unmaintained)
 
 ## Credits
 
