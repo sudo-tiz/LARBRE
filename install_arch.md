@@ -1,273 +1,272 @@
 # Install Arch Linux
 
-1.  Download arch iso image from https://www.archlinux.org/download/ and copy to a USB drive.
+Setup: UEFI, GPT, GRUB, LUKS encryption, ext4, swapfile, optional LVM.
 
-        # dd if=arch.iso of=/dev/sdb
+Examples use French settings (`fr` keyboard, `Europe/Paris`). Change them as needed.
+Replace every `<placeholder>` with your own value.
 
-1.  Connect the USB drive and boot from the Arch Linux ISO.
+## 1. Prepare the live system
 
-1.  Make sure the system is booted in UEFI mode.
-    The following command should display the directory contents without error.
+1.  Download the ISO from <https://archlinux.org/download/> and write it to a USB drive.
+    **This erases the USB drive.** Check the device name with `lsblk` first.
 
-        ls /sys/firmware/efi/efivars
+    ```sh
+    dd if=archlinux.iso of=/dev/<usb> bs=4M status=progress oflag=sync
+    ```
 
-1.  Connect to the internet.
-    A wired connection is preferred since it's easier to connect.
-    [More info](https://wiki.archlinux.org/index.php/Installation_guide#Connect_to_the_internet)
+1.  Boot from the USB drive, then set the keyboard layout:
 
-1.  Run `fdisk` to create Linux partitions.
+    ```sh
+    loadkeys fr
+    ```
 
-        fdisk /dev/<your-disk>
+1.  Check that you booted in UEFI mode. The directory must be listed without error:
 
-    If you have installed Windows, you already have a GPT partition table.
-    Otherwise, create an empty GPT partition table using the `g` command.
-    (**WARNING:** This will erase the entire disk.)
+    ```sh
+    ls /sys/firmware/efi/efivars
+    ```
 
-        # WARNING: This will erase the entire disk.
+1.  Connect to the internet. Wired is easiest (works automatically).
+    For Wi-Fi, use `iwctl` ([wiki](https://wiki.archlinux.org/title/Iwd#iwctl)). Then check:
 
-        Command (m for help): g
-        Created a new GPT disklabel (GUID: ...).
+    ```sh
+    ping -c 3 archlinux.org
+    ```
 
-    Create the EFI partition (`/dev/<your-disk-efi>`):
+## 2. Partition, encrypt, format
 
-        Command (m for help): n
-        Partition number: <Press Enter>
-        First sector: <Press Enter>
-        Last sector, +/-sectors or +/-size{K,M,G,T,P}: +100M
+1.  Find your disk name (`/dev/sda`, `/dev/nvme0n1`, ...):
 
-        Command (m for help): t
-        Partition type or alias (type L to list all): uefi
+    ```sh
+    lsblk
+    ```
 
-    Create the Boot partition (`/dev/<your-disk-boot>`):
+1.  Create the partitions.
+    **WARNING: this erases the entire disk.** Don't use it to keep Windows;
+    in that case create the partitions manually with `fdisk`.
 
-        Command (m for help): n
-        Partition number: <Press Enter>
-        First sector: <Press Enter>
-        Last sector, +/-sectors or +/-size{K,M,G,T,P}: +512M
+    | Partition | Size      | Use                               |
+    | --------- | --------- | --------------------------------- |
+    | 1         | 512M      | EFI system partition (`/efi`)     |
+    | 2         | 1G        | Boot (`/boot`, kernels)           |
+    | 3         | remaining | LUKS (encrypted system)           |
 
-        Command (m for help): t
-        Partition type or alias (type L to list all): linux
+    ```sh
+    sfdisk /dev/<disk> << 'EOF'
+    label: gpt
+    ,512M,U
+    ,1G,L
+    ,,L
+    EOF
+    ```
 
-    Create the LUKS partition (`/dev/<your-disk-luks>`):
+    Partitions are named `<disk>1`, `<disk>2`, `<disk>3` (`<disk>p1`... for NVMe).
+    Check with `lsblk`. Below they are called `<efi>`, `<boot>` and `<luks>`.
 
-        Command (m for help): n
-        Partition number: <Press Enter>
-        First sector: <Press Enter>
-        Last sector, +/-sectors or +/-size{K,M,G,T,P}: <Press Enter>
+1.  Format the EFI and boot partitions:
 
-        Command (m for help): t
-        Partition type or alias (type L to list all): linux
+    ```sh
+    mkfs.fat -F 32 /dev/<efi>
+    mkfs.ext4 /dev/<boot>
+    ```
 
-    Print the partition table using the `p` command and check that everything is OK:
+1.  Encrypt the third partition and open it.
+    `cryptroot` is just a name, you can change it.
 
-        Command (m for help): p
+    ```sh
+    cryptsetup luksFormat /dev/<luks>
+    cryptsetup open /dev/<luks> cryptroot
+    ```
 
-    Write changes to the disk using the `w` command.
-    (Make sure you know what you're doing before running this command).
+1.  Create the filesystems. Choose **one** option.
 
-        Command (m for help): w
+    **Option A: no LVM (simplest, recommended).** One root partition:
 
-1.  Format the EFI and Boot Partitions.
+    ```sh
+    mkfs.ext4 /dev/mapper/cryptroot
+    mount /dev/mapper/cryptroot /mnt
+    ```
 
-        mkfs.fat -F 32 /dev/<your-disk-efi>
-        mkfs.ext4 /dev/<your-disk-boot>
+    **Option B: LVM.** Useful for a separate `/home` or resizable volumes.
+    Leaves 256MiB free in the volume group (needed by `e2scrub`):
 
-1.  Set up the encrypted partition.
-    You can choose any other name instead of `cryptlvm`.
+    ```sh
+    pvcreate /dev/mapper/cryptroot
+    vgcreate vg0 /dev/mapper/cryptroot
+    lvcreate -L 100G vg0 -n root
+    lvcreate -l 100%FREE vg0 -n home
+    lvreduce -y -L -256M vg0/home
+    mkfs.ext4 /dev/vg0/root
+    mkfs.ext4 /dev/vg0/home
+    mount /dev/vg0/root /mnt
+    mount --mkdir /dev/vg0/home /mnt/home
+    ```
 
-        cryptsetup luksFormat /dev/<your-disk-luks>
-        cryptsetup luksOpen /dev/<your-disk-luks> cryptlvm
+1.  Mount the boot partitions:
 
-1.  Create an LVM volume group.
-    You can choose any other name instead of `vg0`.
+    ```sh
+    mount --mkdir /dev/<boot> /mnt/boot
+    mount --mkdir /dev/<efi> /mnt/efi
+    ```
 
-        pvcreate /dev/mapper/cryptlvm
-        vgcreate vg0 /dev/mapper/cryptlvm
+1.  Create a swapfile. Use at least your RAM size if you want hibernation.
 
-1.  Create LVM partitions (logical volumes).
+    ```sh
+    mkswap -U clear --size 8G --file /mnt/swapfile
+    swapon /mnt/swapfile
+    ```
 
-    We create logical volumes for swap, root (`/`), and optionnaly home (`/home`).
-    Leave 256MiB of free space in the volume group because the `e2scrub` command requires
-    the LVM volume group to have at least 256MiB of unallocated space to dedicate
-    to the snapshot.
+## 3. Install the system
 
-        lvcreate --size 8G vg0 --name swap
-        lvcreate --size 100G vg0 --name root
-        lvcreate -l +100%FREE vg0 --name home
-        lvreduce --size -256M vg0/home
+1.  Install the base system. Choose `intel-ucode` or `amd-ucode` for your CPU.
+    Add `lvm2` if you chose Option B.
 
-1.  Format logical volumes.
+    ```sh
+    pacstrap -K /mnt base base-devel linux linux-firmware intel-ucode e2fsprogs \
+      grub efibootmgr networkmanager sof-firmware git neovim man-db man-pages texinfo sudo zsh
+    ```
 
-        mkswap /dev/vg0/swap
-        mkfs.ext4 /dev/vg0/root
-        mkfs.ext4 /dev/vg0/home
+    If you get signature/key errors, fix the keyring and retry:
 
-1.  Mount new filesystems.
+    ```sh
+    pacman-key --init && pacman-key --populate archlinux && archlinux-keyring-wkd-sync
+    ```
 
-        mount /dev/vg0/root /mnt
-        mount --mkdir /dev/<your-disk-efi> /mnt/efi
-        mount --mkdir /dev/<your-disk-boot> /mnt/boot
-        mount --mkdir /dev/vg0/home /mnt/home
-        swapon /dev/vg0/swap
+1.  Generate `/etc/fstab` (how partitions are mounted at boot, swapfile included):
 
-1.  Install the base system.
-    We also install some useful packages like `git`, `vim`, and `sudo`.
+    ```sh
+    genfstab -U /mnt >> /mnt/etc/fstab
+    ```
 
-        pacstrap -K /mnt base base-devel linux linux-firmware e2fsprogs dhcpcd networkmanager sof-firmware git neovim man-db man-pages texinfo sudo zsh
+1.  Enter the new system:
 
-⚠️ If you get errors due to key then do the following:
+    ```sh
+    arch-chroot /mnt
+    ```
 
-1.  Initialize _pacman_ keys and populate them:
+## 4. Configure the system (inside the chroot)
 
-        pacman-key --init
-        pacman-key --populate
+1.  Timezone and clock (list zones with `ls /usr/share/zoneinfo/`):
 
-1.  Synchronize Arch keyring:
+    ```sh
+    ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
+    hwclock --systohc
+    ```
 
-        archlinux-keyring-wkd-sync
+1.  Language and keyboard:
 
-1.  Generate `/etc/fstab`. This file can be used to define how disk partitions,
-    various other block devices, or remote filesystems should be mounted into the
-    filesystem.
+    ```sh
+    sed -i 's/^#\(en_US.UTF-8\)/\1/' /etc/locale.gen
+    locale-gen
+    echo LANG=en_US.UTF-8 > /etc/locale.conf
+    echo KEYMAP=fr > /etc/vconsole.conf
+    ```
 
-        genfstab -U /mnt >> /mnt/etc/fstab
+1.  Hostname:
 
-1.  Enter the new system.
+    ```sh
+    echo <hostname> > /etc/hostname
+    ```
 
-        arch-chroot /mnt /bin/bash
+1.  Passwords and user. Members of `wheel` can use `sudo`.
 
-1.  Set TimeZone.
+    ```sh
+    passwd
+    useradd -m -G wheel,video,audio,input -s /bin/zsh <username>
+    passwd <username>
+    echo '%wheel ALL=(ALL:ALL) ALL' > /etc/sudoers.d/wheel
+    ```
 
-        # See available timezones:
-        ls /usr/share/zoneinfo/
+1.  Configure the initramfs (early boot image) to unlock the disk.
+    If you chose Option B, add `lvm2` after `sd-encrypt`.
 
-        # Set timezone:
-        ln -s /usr/share/zoneinfo/France/Paris /etc/localtime
+    ```sh
+    echo 'HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole block sd-encrypt filesystems fsck)' \
+      > /etc/mkinitcpio.conf.d/hooks.conf
+    mkinitcpio -P
+    ```
 
-1.  Run hwclock(8) to generate `/etc/adjtime`.
+1.  Install GRUB:
 
-        hwclock --systohc
+    ```sh
+    grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB
+    ```
 
-1.  Set Locale.
+1.  Tell GRUB where the encrypted disk and the hibernation swapfile are.
+    The kernel root must be `/dev/mapper/cryptroot` (Option A) or `/dev/vg0/root` (Option B).
 
-        sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen
-        locale-gen
-        echo LANG=en_US.UTF-8 > /etc/locale.conf
+    ```sh
+    ROOT=/dev/mapper/cryptroot   # Option B: ROOT=/dev/vg0/root
+    LUKS_UUID=$(blkid -s UUID -o value /dev/<luks>)
+    ROOT_UUID=$(findmnt -no UUID /)
+    OFFSET=$(filefrag -v /swapfile | awk '$1=="0:" {print substr($4, 1, length($4)-2)}')
 
-1.  Create `/etc/vconsole.conf`:
+    sed -i "s|^GRUB_CMDLINE_LINUX=.*|GRUB_CMDLINE_LINUX=\"rd.luks.name=$LUKS_UUID=cryptroot root=$ROOT resume=UUID=$ROOT_UUID resume_offset=$OFFSET\"|" /etc/default/grub
+    sed -i 's|^GRUB_CMDLINE_LINUX_DEFAULT=.*|GRUB_CMDLINE_LINUX_DEFAULT="quiet loglevel=3"|' /etc/default/grub
+    grub-mkconfig -o /boot/grub/grub.cfg
+    ```
 
-        cat > /etc/vconsole.conf << 'EOF'
-        KEYMAP=fr
-        XKBLAYOUT=fr
-        XKBMODEL=pc105
-        XKBOPTIONS=terminate:ctrl_alt_bksp
-        EOF
+    Check the result: `grep ^GRUB_CMDLINE /etc/default/grub`.
 
-1.  Set hostname.
+1.  Enable the network at boot:
 
-        echo yourhostname > /etc/hostname
+    ```sh
+    systemctl enable NetworkManager
+    ```
 
-1.  Edit `/etc/hosts` like this:
+1.  Leave the chroot, unmount and reboot (remove the USB drive):
 
-        127.0.0.1 localhost
-        ::1 localhost
-        127.0.1.1 yourhostname
+    ```sh
+    exit
+    umount -R /mnt
+    reboot
+    ```
 
-1.  Create a user.
-
-        useradd -m -G wheel,storage,power,video,audio,input --shell /bin/zsh yourusername
-        passwd yourusername
-        sed -i 's/^# %wheel ALL=(ALL) ALL/%wheel ALL=(ALL) ALL/' /etc/sudoers
-
-1.  Configure `mkinitcpio`.
-
-    Install lvm2:
-
-        pacman -S lvm2
-
-    Set the hooks in `/etc/mkinitcpio.conf`:
-
-        sed -i 's/^HOOKS=.*/HOOKS=(base udev autodetect microcode modconf kms keyboard sd-vconsole block plymouth encrypt lvm2 filesystems resume fsck)/' /etc/mkinitcpio.conf
-
-    Recreate the initramfs image:
-
-        mkinitcpio -P
-
-1.  Setup GRUB.
-
-          grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB
-
-    In `/etc/default/grub` set `GRUB_CMDLINE_LINUX` and `GRUB_CMDLINE_LINUX_DEFAULT`.
-    Replace `/dev/<your-disk-luks>` with the appropriate path (use UUID for reliability):
-
-          GRUB_CMDLINE_LINUX="cryptdevice=/dev/<your-disk-luks>:cryptlvm root=/dev/vg0/root"
-          GRUB_CMDLINE_LINUX_DEFAULT="quiet splash loglevel=3"
-
-    Now generate the main GRUB configuration file:
-
-          grub-mkconfig -o /boot/grub/grub.cfg
-
-1.  Enable essential services and exit.
-
-        systemctl enable NetworkManager
-
-1.  Exit new system and unmount all filesystems.
-
-        exit
-        umount -R /mnt
-        swapoff -a
-
-    Arch is now installed 🎉. Reboot.
-
-        reboot
+Arch is now installed 🎉
 
 # Notes
 
-## Backup LUKS Header
+## Backup the LUKS header
 
-It is important to make a backup of LUKS header so that you can access your data in case of emergency
-(if your LUKS header somehow gets damaged).
+If the LUKS header gets damaged, your data is lost forever.
+Back it up and store the file somewhere safe (another USB drive, not this disk).
 
-Create a backup file:
+```sh
+sudo cryptsetup luksHeaderBackup /dev/<luks> --header-backup-file luks-header-backup-$(date -I)
+```
 
-    sudo cryptsetup luksHeaderBackup /dev/<your-disk-luks> --header-backup-file luks-header-backup-$(date -I)
+Restore it if needed:
 
-Store the backup file in a safe place, such as a USB drive.
-If something bad happens, you can restore the backup header:
-
-    sudo cryptsetup luksHeaderRestore /dev/<your-disk-luks> --header-backup-file /path/to/backup_header_file
-
-## Set Hibernation using swapfile
-### Set Swapfile
-    mkswap -U clear --size 10G --file /swapfile
-    swapon /swapfile
-    echo '/swapfile none swap defaults 0 0' | sudo tee -a /etc/fstab
-### Set initramfs hook
-    echo 'HOOKS=(base udev autodetect microcode modconf kms keyboard sd-vconsole block plymouth encrypt lvm2 filesystems resume fsck)' | sudo tee /etc/mkinitcpio.conf.d/99-hooks.conf
-    sudo mkinitcpio -P
-### Pass hibernate location to initramfs
-    sudo sed -i "s|^GRUB_CMDLINE_LINUX_DEFAULT=\".*\"|GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 quiet splash resume=UUID=$(sudo blkid /dev/mapper/root -o value -s UUID) resume_offset=$(sudo filefrag -v /swapfile | awk '$1=="0:" {print substr($4, 1, length($4)-2)}')\"|" /etc/default/grub
-    sudo grub-mkconfig -o /boot/grub/grub.cfg
-
+```sh
+sudo cryptsetup luksHeaderRestore /dev/<luks> --header-backup-file /path/to/backup_header_file
+```
 
 ## Install drivers
 
 **Intel**:
 
-    sudo pacman -S mesa intel-media-driver libva-intel-driver vulkan-intel
+```sh
+sudo pacman -S mesa intel-media-driver libva-intel-driver vulkan-intel
+```
 
 **NVIDIA**:
 
-    sudo pacman -S nvidia
+```sh
+sudo pacman -S nvidia
+```
 
 **VirtualBox**:
 
-    sudo pacman -S virtualbox-guest-utils
+```sh
+sudo pacman -S virtualbox-guest-utils
+```
 
-## Run LARBRE to install Desktop Environment
+## Run LARBRE to install the desktop environment
 
-You can now install a Desktop Environment manually or run larbre.sh to install mine (see [dotfiles](https://github.com/sudo-Tiz/dotfilesV2))
+You can install a desktop environment manually, or run `larbre.sh` to install mine
+(see [dotfiles](https://github.com/sudo-Tiz/dotfilesV2)):
 
-    sudo su
-    curl -LO https://raw.githubusercontent.com/sudo-Tiz/LARBRE/main/larbre.sh
-    sh larbre.sh
+```sh
+curl -LO https://raw.githubusercontent.com/sudo-Tiz/LARBRE/main/larbre.sh
+sudo sh larbre.sh
+```
