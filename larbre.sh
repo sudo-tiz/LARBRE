@@ -127,7 +127,11 @@ gitmakeinstall() {
       sudo -u "$name" git pull --force origin master
     }
   cd "$dir" || exit 1
-  make && make install
+  if [ -f justfile ] || [ -f Justfile ]; then
+    just && just install
+  else
+    make && make install
+  fi
   cd /tmp || return 1
 }
 
@@ -263,7 +267,7 @@ preinstallmsg || error "User exited."
 refreshkeys || error "Error automatically refreshing Arch keyring. Consider doing so manually."
 
 # Install essential packages
-for x in curl ca-certificates base-devel git ntp zsh; do
+for x in curl ca-certificates base-devel git just ntp zsh; do
   whiptail --title "LARBS Installation" \
     --infobox "Installing \`$x\` which is required to install and configure other programs." 8 70
   installpkg "$x"

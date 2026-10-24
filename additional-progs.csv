@@ -24,7 +24,6 @@ A,iio-hyprland-git,"is a daemon to enable automatic rotation using iio-proxy-sen
 ,intel-media-driver,"provides VAAPI hardware acceleration for Intel GPUs"
 ,qt5-wayland,"provides Qt5 Wayland integration"
 ,nwg-displays,"is an output management utility for Hyprland"
-,nwg-look,"is a GTK settings editor for Wayland"
 ,swappy,"is a Wayland screenshot editor"
 ,wf-recorder,"is a screen recorder for wlroots-based Wayland compositors"
 ,chafa,"provides terminal graphics for the 21st century"
@@ -32,6 +31,7 @@ A,iio-hyprland-git,"is a daemon to enable automatic rotation using iio-proxy-sen
 ,uv,"is a fast Python package and project manager"
 ,python-adblock,"is the Brave adblock python library for adblocking in qutebrowser"
 ,python-qrcode,"is a QR code generator library"
+,python-pillow,"is a Python imaging library"
 ,tesseract,"is an OCR engine"
 ,tesseract-data-eng,"provides English language data for Tesseract"
 ,poppler-data,"provides encoding data for poppler"
@@ -67,6 +67,7 @@ A,agru,"is a fast ansible-galaxy replacement"
 
 # Security
 ,arch-audit,"checks installed packages against Arch's CVE database"
+,firejail,"is a sandbox for untrusted applications"
 ,lynis,"is a security auditing tool"
 ,rkhunter,"is a rootkit hunter"
 
@@ -97,7 +98,6 @@ A,waydroid,"is an Android container for Linux"
 ,steam,"is a gaming platform"
 ,luanti,"is a voxel game and game creation platform"
 ,gnome-chess,"is a chess game for GNOME"
-A,rpcs3-bin,"is a PlayStation 3 emulator"
 
 # Browsers
 ,firefox,"is a web browser"
@@ -107,6 +107,7 @@ A,rpcs3-bin,"is a PlayStation 3 emulator"
 # Media & productivity
 ,libreoffice-still,"is a stable office suite"
 ,mixxx,"is DJ software"
+,termusic,"is a terminal music player"
 ,nsxiv,"is Neo Simple X Image Viewer"
 ,xournalpp,"is handwriting notetaking software"
 ,veracrypt,"is disk encryption software"

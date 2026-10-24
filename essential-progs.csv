@@ -92,6 +92,7 @@ A,yay,"is an AUR helper"
 ,zip,"creates ZIP archives"
 ,btop,"is a resource monitor"
 ,fastfetch,"is a system information fetching tool"
+,glow,"is a terminal markdown preview"
 
 # Wayland utilities
 ,foot,"is a fast, lightweight Wayland terminal emulator"
@@ -125,3 +126,4 @@ A,brave-bin,"is a privacy-focused web browser"
 ,network-manager-applet,"is the NetworkManager system tray applet"
 ,nm-connection-editor,"is the NetworkManager connection editor"
 ,blueman,"is a GTK+ Bluetooth manager"
+,bluetui,"is a TUI Bluetooth manager"
