@@ -241,6 +241,24 @@ Restore it if needed:
 sudo cryptsetup luksHeaderRestore /dev/<luks> --header-backup-file /path/to/backup_header_file
 ```
 
+## Enable AppArmor (optional)
+
+AppArmor confines programs with per-application profiles (mandatory access control).
+
+```sh
+sudo pacman -S apparmor
+sudo systemctl enable apparmor
+```
+
+Add the kernel parameters to `GRUB_CMDLINE_LINUX_DEFAULT` and regenerate the config:
+
+```sh
+sudo sed -i 's|^\(GRUB_CMDLINE_LINUX_DEFAULT="[^"]*\)"|\1 lsm=landlock,lockdown,yama,integrity,apparmor,bpf"|' /etc/default/grub
+sudo grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+After a reboot, check with `aa-status`.
+
 ## Install drivers
 
 **Intel**:

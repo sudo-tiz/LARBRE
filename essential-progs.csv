@@ -21,6 +21,7 @@
 ,xdg-user-dirs,"provides user directory management"
 ,inotify-tools,"provides tools for inotify"
 ,xdg-dbus-proxy,"is a D-Bus proxy for sandboxed applications"
+,apparmor,"is a mandatory access control security framework"
 
 # Audio
 ,pipewire,"is a low-latency audio/video server"
