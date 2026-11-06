@@ -9,9 +9,9 @@
 ,grub,"is the GNU bootloader"
 ,efibootmgr,"is an EFI boot manager"
 ,dosfstools,"provides DOS filesystem utilities"
-,plymouth,"is a boot splash framework"
 ,git,"is a distributed version control system"
 ,pacman-contrib,"provides contributed scripts for pacman"
+,man-db,"is the manual page database"
 
 # System services
 ,udisks2,"is a disk management service"
@@ -19,9 +19,6 @@
 ,brightnessctl,"allows reading and controlling device brightness"
 ,hyprpolkitagent,"is the Hyprland polkit agent"
 ,xdg-user-dirs,"provides user directory management"
-,xdg-dbus-proxy,"is a D-Bus proxy for sandboxed applications"
-,inotify-tools,"provides tools for inotify"
-,man-db,"is the manual page database"
 
 # Graphics
 ,vulkan-intel,"provides Intel Vulkan drivers"
@@ -32,25 +29,19 @@
 ,pipewire,"is a low-latency audio/video server"
 ,pipewire-alsa,"provides ALSA configuration for PipeWire"
 ,pipewire-pulse,"is the PulseAudio replacement for PipeWire"
-,pipewire-jack,"is the JACK replacement for PipeWire"
 ,wireplumber,"is the session/policy manager for PipeWire"
 ,libpulse,"provides PulseAudio client libraries"
 ,gst-plugin-pipewire,"is the GStreamer PipeWire plugin"
 ,sof-firmware,"is the Sound Open Firmware"
 ,pavucontrol,"is a PulseAudio volume control"
+,pipewire-jack,"is the JACK replacement for PipeWire"
 ,pulsemixer,"is a CLI/curses mixer for PulseAudio"
 
 # Network
 ,networkmanager,"is a network connection manager"
-,iwd,"is the Internet Wireless Daemon"
 ,network-manager-applet,"is the NetworkManager system tray applet"
 ,nm-connection-editor,"is the NetworkManager connection editor"
-
-# Bluetooth
-,bluez,"is the Linux Bluetooth protocol stack"
-,bluez-utils,"provides Bluetooth utilities"
-,blueman,"is a GTK+ Bluetooth manager"
-,bluetui,"is a TUI Bluetooth manager"
+,iwd,"is the Internet Wireless Daemon"
 
 # Fonts & Themes
 ,noto-fonts,"provides Noto fonts"
@@ -81,8 +72,6 @@ A,grimblast-git,"is a screenshot tool for Hyprland"
 ,zsh-autosuggestions,"provides fish-like autosuggestions for ZSH"
 A,zsh-theme-powerlevel10k-bin-git,"is the Powerlevel10k ZSH theme"
 ,bash-completion,"provides programmable completion for Bash"
-,tmux,"is a terminal multiplexer"
-,neovim,"is a Vim-based text editor"
 ,bat,"is a cat clone with syntax highlighting"
 ,eza,"is a modern replacement for ls"
 ,fd,"is a simple, fast alternative to find"
@@ -90,18 +79,13 @@ A,zsh-theme-powerlevel10k-bin-git,"is the Powerlevel10k ZSH theme"
 ,jq,"is a JSON processor"
 ,ripgrep,"is a fast grep alternative"
 
-# Core desktop apps
+# Core apps
 ,foot,"is a fast, lightweight Wayland terminal emulator"
-A,brave-bin,"is a privacy-focused web browser"
-,rofi,"is an application launcher"
-,rofi-rbw,"is a rofi frontend for Bitwarden"
-,gvfs,"is a virtual filesystem implementation"
-,gvfs-mtp,"is the MTP backend for gvfs"
-,tumbler,"is a thumbnail service"
-,file-roller,"is an archive manager for GNOME"
+,neovim,"is a Vim-based text editor"
 ,yazi,"is a terminal file manager"
-,zathura,"is a document viewer"
-,zathura-pdf-poppler,"provides PDF support for Zathura"
 ,poppler,"is a PDF rendering library"
 ,poppler-data,"provides encoding data for poppler"
+A,brave-bin,"is a privacy-focused web browser"
+,rofi,"is an application launcher"
 ,mpv,"is a media player"
+,nsxiv,"is Neo Simple X Image Viewer"

@@ -1,6 +1,7 @@
 #TAG,NAME IN REPO (or git url),PURPOSE (should be a verb phrase to sound right while installing)
 
-# Themes
+# Boot themes
+,plymouth,"is a boot splash framework"
 G,https://github.com/sudo-Tiz/minecraft-plymouth-theme.git,"is a minecraft plymouth theme"
 G,https://github.com/sudo-Tiz/minegrub-theme.git,"is a minecraft grub theme"
 
@@ -11,62 +12,71 @@ A,iio-hyprland-git,"is a daemon to enable automatic rotation using iio-proxy-sen
 ,iio-sensor-proxy,"is a IIO accelerometer sensor to input device proxy"
 ,squeekboard,"is an on-screen keyboard for Wayland"
 ,i2c-tools,"provides I2C bus tools"
+
+# Hardware tools
 ,ddcutil,"controls external monitor settings via DDC/CI"
-,powertop,"is a power consumption analyzer"
 ,dmidecode,"is a Desktop Management Interface table decoder"
+,powertop,"is a power consumption analyzer"
+
+# System extras
+,fuse2,"is a filesystem in userspace"
+,arch-install-scripts,"provides Arch Linux installation scripts"
 
 # Printing
 ,cups,"is the CUPS printing system"
 ,system-config-printer,"is a printer configuration tool"
 
-# GUI File explorer
-,thunar,"is a file manager for Xfce"
-,thunar-archive-plugin,"is an archive plugin for Thunar"
-,thunar-media-tags-plugin,"is a media tags plugin for Thunar"
-,thunar-volman,"is the Thunar volume manager"
+# Bluetooth
+,bluez,"is the Linux Bluetooth protocol stack"
+,bluez-utils,"provides Bluetooth utilities"
+,blueman,"is a GTK+ Bluetooth manager"
+,bluetui,"is a TUI Bluetooth manager"
 
 # Wayland extras
 ,nwg-displays,"is an output management utility for Hyprland"
 ,swappy,"is a Wayland screenshot editor"
 ,wf-recorder,"is a screen recorder for wlroots-based Wayland compositors"
-,wev,"is a Wayland event viewer"
+,rofi-rbw,"is a rofi frontend for Bitwarden"
 
-# Extra CLI
-,opencode,"is an AI coding agent for the terminal"
+# GUI file manager
+,thunar,"is a file manager for Xfce"
+,thunar-archive-plugin,"is an archive plugin for Thunar"
+,thunar-media-tags-plugin,"is a media tags plugin for Thunar"
+,thunar-volman,"is the Thunar volume manager"
+,gvfs,"is a virtual filesystem implementation"
+,gvfs-mtp,"is the MTP backend for gvfs"
+,tumbler,"is a thumbnail service"
+,file-roller,"is an archive manager for GNOME"
+
+# Terminal extras
+,tmux,"is a terminal multiplexer"
 ,fastfetch,"is a system information fetching tool"
 ,glow,"is a terminal markdown preview"
+,chafa,"provides terminal graphics for the 21st century"
+,yq,"is a YAML processor"
+,just,"is a command runner"
+,bc,"is a mathematics language used for calculations"
+
+# System monitoring
 ,btop,"is a resource monitor"
 ,htop,"is an interactive process viewer"
 ,nvtop,"is a GPU process monitor"
 ,ncdu,"is a disk usage analyzer"
-,yq,"is a YAML processor"
-,just,"is a command runner"
-,bc,"is a mathematics language used for calculations"
-,chafa,"provides terminal graphics for the 21st century"
-,yt-dlp,"can download YouTube videos"
-,fuse2,"is a filesystem in userspace"
-,arch-install-scripts,"provides Arch Linux installation scripts"
 
 # Archives
 ,7zip,"is a file archiver with high compression ratio"
 ,atool,"is an archive tool wrapper"
-,pigz,"is parallel gzip"
-,cpio,"copies files to/from archives"
 ,unzip,"is an extraction utility for ZIP archives"
 ,zip,"creates ZIP archives"
+,pigz,"is parallel gzip"
+,cpio,"copies files to/from archives"
 
-# Spell checking
-,hunspell-en_us,"is the English (US) dictionary for Hunspell"
-,hunspell-fr,"is the French dictionary for Hunspell"
-
-# OCR & imaging
-,tesseract,"is an OCR engine"
-,tesseract-data-eng,"provides English language data for Tesseract"
-,python-pillow,"is a Python imaging library"
-,python-qrcode,"is a QR code generator library"
-
-# Development
+# Editors & AI
 A,vscodium-bin,"provides free/libre open source binaries of VSCode"
+,opencode,"is an AI coding agent for the terminal"
+,ollama,"allows running large language models locally"
+
+# Languages & build tools
 ,clang,"is a C language family frontend for LLVM"
 ,gcc-fortran,"provides GNU Fortran compiler"
 ,cmake,"is a cross-platform build system"
@@ -76,6 +86,8 @@ A,vscodium-bin,"provides free/libre open source binaries of VSCode"
 ,sccache,"is a ccache-like tool i use for rust"
 ,uv,"is a fast Python package and project manager"
 ,reuse,"helps ensure REUSE/license compliance in projects"
+
+# Automation
 ,ansible,"is an IT automation platform"
 A,agru,"is a fast ansible-galaxy replacement"
 
@@ -104,14 +116,13 @@ A,simple-mtpfs,"enables mounting of cell phones"
 
 # Security
 ,apparmor,"is a mandatory access control security framework"
-,arch-audit,"checks installed packages against Arch's CVE database"
+,xdg-dbus-proxy,"is a D-Bus proxy for sandboxed applications"
 ,firejail,"is a sandbox for untrusted applications"
+,arch-audit,"checks installed packages against Arch's CVE database"
 ,lynis,"is a security auditing tool"
 ,rkhunter,"is a rootkit hunter"
-,veracrypt,"is disk encryption software"
 
 # Network tools
-,bind,"provides DNS server and utilities"
 ,unbound,"is a validating DNS resolver"
 ,nmap,"is a network exploration tool"
 ,networkmanager-openvpn,"is the OpenVPN plugin for NetworkManager"
@@ -120,7 +131,6 @@ A,simple-mtpfs,"enables mounting of cell phones"
 ,wireshark-qt,"is a network protocol analyzer"
 ,rclone,"is a cloud storage synchronization tool"
 ,smbclient,"is an SMB/CIFS client"
-,transmission-gtk,"is the BitTorrent client GTK+ interface"
 
 # Browsers
 ,firefox,"is a web browser"
@@ -133,19 +143,30 @@ A,simple-mtpfs,"enables mounting of cell phones"
 ,thunderbird,"is an email client"
 ,newsboat,"is an RSS/Atom feed reader"
 
-# Media & productivity
-,elisa,"is a music player"
-,mixxx,"is DJ software"
-,nsxiv,"is Neo Simple X Image Viewer"
-,pdfjs,"is a PDF reader in JavaScript"
+# Office & documents
 ,libreoffice-still,"is a stable office suite"
+,hunspell-en_us,"is the English (US) dictionary for Hunspell"
+,hunspell-fr,"is the French dictionary for Hunspell"
+,zathura,"is a document viewer"
+,zathura-pdf-poppler,"provides PDF support for Zathura"
+,pdfjs,"is a PDF reader in JavaScript"
 ,xournalpp,"is handwriting notetaking software"
+,tesseract,"is an OCR engine"
+,tesseract-data-eng,"provides English language data for Tesseract"
+,python-pillow,"is a Python imaging library"
+,python-qrcode,"is a QR code generator library"
 
 # LaTeX
 ,texlive-binextra,"provides extra TeX Live binaries"
 ,texlive-fontsrecommended,"provides recommended TeX Live fonts"
 ,texlive-latex,"is the LaTeX TeX Live distribution"
 ,texlive-latexextra,"provides extra LaTeX TeX Live packages"
+
+# Media
+,elisa,"is a music player"
+,mixxx,"is DJ software"
+,yt-dlp,"can download YouTube videos"
+,transmission-gtk,"is the BitTorrent client GTK+ interface"
 
 # Games
 ,steam,"is a gaming platform"
