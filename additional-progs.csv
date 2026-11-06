@@ -1,6 +1,6 @@
 #TAG,NAME IN REPO (or git url),PURPOSE (should be a verb phrase to sound right while installing)
 
-# Custom themes (personal)
+# Minecraft themes
 G,https://github.com/sudo-Tiz/minecraft-plymouth-theme.git,"is a minecraft plymouth theme"
 G,https://github.com/sudo-Tiz/minegrub-theme.git,"is a minecraft grub theme"
 
@@ -70,6 +70,7 @@ A,agru,"is a fast ansible-galaxy replacement"
 ,firejail,"is a sandbox for untrusted applications"
 ,lynis,"is a security auditing tool"
 ,rkhunter,"is a rootkit hunter"
+,apparmor,"is a MAC security kernel module"
 
 # Network tools
 ,nmap,"is a network exploration tool"

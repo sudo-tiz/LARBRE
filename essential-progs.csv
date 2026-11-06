@@ -101,10 +101,7 @@ A,yay,"is an AUR helper"
 ,grim,"is a screenshot tool for Wayland"
 ,slurp,"is a region selection tool for Wayland screenshots"
 A,grimblast-git,"is a screenshot tool for Hyprland"
-,wlsunset,"is a blue light filter for Wayland"
-,cliphist,"is a Wayland clipboard manager"
 ,pulsemixer,"is a CLI/curses mixer for PulseAudio"
-,playerctl,"is a media player controller"
 ,imagemagick,"is an image manipulation library"
 
 # Desktop apps
