@@ -5,123 +5,103 @@
 ,base-devel,"provides basic tools for building packages"
 ,linux,"is the Linux kernel"
 ,linux-firmware,"provides firmware files for Linux"
+,intel-ucode,"provides Intel processor microcode"
 ,grub,"is the GNU bootloader"
 ,efibootmgr,"is an EFI boot manager"
-,intel-ucode,"provides Intel processor microcode"
-
-# System
-,bash-completion,"provides programmable completion for Bash"
-,brightnessctl,"allows reading and controlling device brightness"
-,man-db,"is the manual page database"
-,pacman-contrib,"provides contributed scripts for pacman"
-,power-profiles-daemon,"is a power profile switching daemon"
-,udisks2,"is a disk management service"
+,dosfstools,"provides DOS filesystem utilities"
 ,plymouth,"is a boot splash framework"
+,git,"is a distributed version control system"
+,pacman-contrib,"provides contributed scripts for pacman"
+
+# System services
+,udisks2,"is a disk management service"
+,power-profiles-daemon,"is a power profile switching daemon"
+,brightnessctl,"allows reading and controlling device brightness"
 ,hyprpolkitagent,"is the Hyprland polkit agent"
 ,xdg-user-dirs,"provides user directory management"
-,inotify-tools,"provides tools for inotify"
 ,xdg-dbus-proxy,"is a D-Bus proxy for sandboxed applications"
-,apparmor,"is a mandatory access control security framework"
+,inotify-tools,"provides tools for inotify"
+,man-db,"is the manual page database"
+
+# Graphics
+,vulkan-intel,"provides Intel Vulkan drivers"
+,intel-media-driver,"provides VAAPI hardware acceleration for Intel GPUs"
+,qt5-wayland,"provides Qt5 Wayland integration"
 
 # Audio
 ,pipewire,"is a low-latency audio/video server"
 ,pipewire-alsa,"provides ALSA configuration for PipeWire"
 ,pipewire-pulse,"is the PulseAudio replacement for PipeWire"
 ,pipewire-jack,"is the JACK replacement for PipeWire"
+,wireplumber,"is the session/policy manager for PipeWire"
 ,libpulse,"provides PulseAudio client libraries"
 ,gst-plugin-pipewire,"is the GStreamer PipeWire plugin"
 ,sof-firmware,"is the Sound Open Firmware"
-,wireplumber,"is the session/policy manager for PipeWire"
+,pavucontrol,"is a PulseAudio volume control"
+,pulsemixer,"is a CLI/curses mixer for PulseAudio"
 
-# Thumbnails & Virtual FS
-,gvfs,"is a virtual filesystem implementation"
-,gvfs-mtp,"is the MTP backend for gvfs"
-,tumbler,"is a thumbnail service"
+# Network
+,networkmanager,"is a network connection manager"
+,iwd,"is the Internet Wireless Daemon"
+,network-manager-applet,"is the NetworkManager system tray applet"
+,nm-connection-editor,"is the NetworkManager connection editor"
+
+# Bluetooth
+,bluez,"is the Linux Bluetooth protocol stack"
+,bluez-utils,"provides Bluetooth utilities"
+,blueman,"is a GTK+ Bluetooth manager"
+,bluetui,"is a TUI Bluetooth manager"
 
 # Fonts & Themes
 ,noto-fonts,"provides Noto fonts"
 ,noto-fonts-emoji,"provides emoji fonts"
-,ttf-jetbrains-mono-nerd,"is the JetBrains Mono Nerd Font"
 ,ttf-dejavu,"provides DejaVu fonts"
+,ttf-jetbrains-mono-nerd,"is the JetBrains Mono Nerd Font"
 ,woff2-font-awesome,"provides the Font Awesome icon webfont"
 A,ttf-material-symbols-variable-git,"provides Material Symbols variable font"
 ,papirus-icon-theme,"is an SVG icon theme"
 ,adw-gtk-theme,"is a GTK theme following the Adwaita design language"
 
-# Network
-,bind,"provides DNS server and utilities"
-,iwd,"is the Internet Wireless Daemon"
-,networkmanager,"is a network connection manager"
-,unbound,"is a validating DNS resolver"
-
-# Bluetooth
-,bluez,"is the Linux Bluetooth protocol stack"
-,bluez-utils,"provides Bluetooth utilities"
-
-# Spell checking
-,hunspell-en_us,"is the English (US) dictionary for Hunspell"
-,hunspell-fr,"is the French dictionary for Hunspell"
-
-# Document rendering
-,poppler,"is a PDF rendering library"
-
 # Hyprland
 ,hyprland,"is a dynamic tiling Wayland compositor"
-,hypridle,"is the Hyprland idle daemon"
 ,xdg-desktop-portal-hyprland,"is the desktop portal for Hyprland"
 A,pam_autologin,"is a PAM autologin module"
-A,noctalia-shell,"is my custom Hyprland shell"
 A,noctalia,"is my custom quick settings"
 
-# CLI
+# Wayland utilities
+,wl-clipboard,"provides Wayland clipboard utilities"
+,wtype,"is a Wayland keyboard input tool"
+,grim,"is a screenshot tool for Wayland"
+,slurp,"is a region selection tool for Wayland screenshots"
+A,grimblast-git,"is a screenshot tool for Hyprland"
+,imagemagick,"is an image manipulation library"
+
+# Shell & CLI
 ,zsh,"is the Z shell"
-,tmux,"is a terminal multiplexer"
 ,zsh-autosuggestions,"provides fish-like autosuggestions for ZSH"
 A,zsh-theme-powerlevel10k-bin-git,"is the Powerlevel10k ZSH theme"
-A,yay,"is an AUR helper"
-,git,"is a distributed version control system"
+,bash-completion,"provides programmable completion for Bash"
+,tmux,"is a terminal multiplexer"
 ,neovim,"is a Vim-based text editor"
-,opencode,"is an AI coding agent for the terminal"
 ,bat,"is a cat clone with syntax highlighting"
 ,eza,"is a modern replacement for ls"
 ,fd,"is a simple, fast alternative to find"
 ,fzf,"is a command-line fuzzy finder"
 ,jq,"is a JSON processor"
 ,ripgrep,"is a fast grep alternative"
-,yazi,"is a terminal file manager"
-,unzip,"is an extraction utility for ZIP archives"
-,zip,"creates ZIP archives"
-,btop,"is a resource monitor"
-,fastfetch,"is a system information fetching tool"
-,glow,"is a terminal markdown preview"
 
-# Wayland utilities
+# Core desktop apps
 ,foot,"is a fast, lightweight Wayland terminal emulator"
-,wl-clipboard,"provides Wayland clipboard utilities"
-,grim,"is a screenshot tool for Wayland"
-,slurp,"is a region selection tool for Wayland screenshots"
-A,grimblast-git,"is a screenshot tool for Hyprland"
-,pulsemixer,"is a CLI/curses mixer for PulseAudio"
-,imagemagick,"is an image manipulation library"
-
-# Desktop apps
 A,brave-bin,"is a privacy-focused web browser"
-,signal-desktop,"is the Signal messenger desktop app"
-,thunderbird,"is an email client"
-,newsboat,"is an RSS/Atom feed reader"
-,mpv,"is a media player"
-,elisa,"is a music player"
-,pavucontrol,"is a PulseAudio volume control"
-,file-roller,"is an archive manager for GNOME"
-,zathura,"is a document viewer"
-,zathura-pdf-poppler,"provides PDF support for Zathura"
 ,rofi,"is an application launcher"
 ,rofi-rbw,"is a rofi frontend for Bitwarden"
-,thunar,"is a file manager for Xfce"
-,thunar-archive-plugin,"is an archive plugin for Thunar"
-,thunar-media-tags-plugin,"is a media tags plugin for Thunar"
-,thunar-volman,"is the Thunar volume manager"
-,network-manager-applet,"is the NetworkManager system tray applet"
-,nm-connection-editor,"is the NetworkManager connection editor"
-,blueman,"is a GTK+ Bluetooth manager"
-,bluetui,"is a TUI Bluetooth manager"
+,gvfs,"is a virtual filesystem implementation"
+,gvfs-mtp,"is the MTP backend for gvfs"
+,tumbler,"is a thumbnail service"
+,file-roller,"is an archive manager for GNOME"
+,yazi,"is a terminal file manager"
+,zathura,"is a document viewer"
+,zathura-pdf-poppler,"provides PDF support for Zathura"
+,poppler,"is a PDF rendering library"
+,poppler-data,"provides encoding data for poppler"
+,mpv,"is a media player"

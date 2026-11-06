@@ -1,90 +1,92 @@
 #TAG,NAME IN REPO (or git url),PURPOSE (should be a verb phrase to sound right while installing)
 
-# Minecraft themes
+# Themes
 G,https://github.com/sudo-Tiz/minecraft-plymouth-theme.git,"is a minecraft plymouth theme"
 G,https://github.com/sudo-Tiz/minegrub-theme.git,"is a minecraft grub theme"
 
-# Device-specific
+# Device-specific (Asus 2-in-1)
 G,https://github.com/sudo-Tiz/asus-numpad.git,"is a numpad trackpad driver for asus laptops"
 G,https://github.com/sudo-Tiz/tablet-mode-hotkey,"is a c program to disable keyboard and trackpad in tablet mode"
 A,iio-hyprland-git,"is a daemon to enable automatic rotation using iio-proxy-sensor"
-,squeekboard,"is an on-screen keyboard for Wayland"
 ,iio-sensor-proxy,"is a IIO accelerometer sensor to input device proxy"
+,squeekboard,"is an on-screen keyboard for Wayland"
+,i2c-tools,"provides I2C bus tools"
+,ddcutil,"controls external monitor settings via DDC/CI"
+,powertop,"is a power consumption analyzer"
+,dmidecode,"is a Desktop Management Interface table decoder"
 
-# System extras
+# Printing
 ,cups,"is the CUPS printing system"
 ,system-config-printer,"is a printer configuration tool"
-,dosfstools,"provides DOS filesystem utilities"
-,fuse2,"is a filesystem in userspace"
-,dmidecode,"is a Desktop Management Interface table decoder"
-,i2c-tools,"provides I2C bus tools"
-,powertop,"is a power consumption analyzer"
-,ddcutil,"controls external monitor settings via DDC/CI"
-,vulkan-intel,"provides Intel Vulkan drivers"
-,intel-media-driver,"provides VAAPI hardware acceleration for Intel GPUs"
-,qt5-wayland,"provides Qt5 Wayland integration"
+
+# GUI File explorer
+,thunar,"is a file manager for Xfce"
+,thunar-archive-plugin,"is an archive plugin for Thunar"
+,thunar-media-tags-plugin,"is a media tags plugin for Thunar"
+,thunar-volman,"is the Thunar volume manager"
+
+# Wayland extras
 ,nwg-displays,"is an output management utility for Hyprland"
 ,swappy,"is a Wayland screenshot editor"
 ,wf-recorder,"is a screen recorder for wlroots-based Wayland compositors"
-,chafa,"provides terminal graphics for the 21st century"
-,wtype,"is a Wayland keyboard input tool"
-,uv,"is a fast Python package and project manager"
-,python-adblock,"is the Brave adblock python library for adblocking in qutebrowser"
-,python-qrcode,"is a QR code generator library"
-,python-pillow,"is a Python imaging library"
-,tesseract,"is an OCR engine"
-,tesseract-data-eng,"provides English language data for Tesseract"
-,poppler-data,"provides encoding data for poppler"
-,7zip,"is a file archiver with high compression ratio"
-,atool,"is an archive tool wrapper"
-,yt-dlp,"can download YouTube videos"
-,jq,"is a JSON processor"
+,wev,"is a Wayland event viewer"
+
+# Extra CLI
+,opencode,"is an AI coding agent for the terminal"
+,fastfetch,"is a system information fetching tool"
+,glow,"is a terminal markdown preview"
+,btop,"is a resource monitor"
+,htop,"is an interactive process viewer"
+,nvtop,"is a GPU process monitor"
+,ncdu,"is a disk usage analyzer"
 ,yq,"is a YAML processor"
 ,just,"is a command runner"
-,fd,"is a simple, fast alternative to find"
+,bc,"is a mathematics language used for calculations"
+,chafa,"provides terminal graphics for the 21st century"
+,yt-dlp,"can download YouTube videos"
+,fuse2,"is a filesystem in userspace"
+,arch-install-scripts,"provides Arch Linux installation scripts"
+
+# Archives
+,7zip,"is a file archiver with high compression ratio"
+,atool,"is an archive tool wrapper"
+,pigz,"is parallel gzip"
+,cpio,"copies files to/from archives"
+,unzip,"is an extraction utility for ZIP archives"
+,zip,"creates ZIP archives"
+
+# Spell checking
+,hunspell-en_us,"is the English (US) dictionary for Hunspell"
+,hunspell-fr,"is the French dictionary for Hunspell"
+
+# OCR & imaging
+,tesseract,"is an OCR engine"
+,tesseract-data-eng,"provides English language data for Tesseract"
+,python-pillow,"is a Python imaging library"
+,python-qrcode,"is a QR code generator library"
 
 # Development
-,ansible,"is an IT automation platform"
+A,vscodium-bin,"provides free/libre open source binaries of VSCode"
 ,clang,"is a C language family frontend for LLVM"
-,cmake,"is a cross-platform build system"
-,docker,"is a container platform"
-,docker-compose,"is a tool for defining multi-container Docker applications"
-,docker-buildx,"is the Docker Buildx plugin"
 ,gcc-fortran,"provides GNU Fortran compiler"
+,cmake,"is a cross-platform build system"
+,meson,"is a build system"
 ,go,"is the Go programming language"
 ,rust,"is a multi-paradigm, general-purpose programming language"
 ,sccache,"is a ccache-like tool i use for rust"
-,meson,"is a build system"
+,uv,"is a fast Python package and project manager"
 ,reuse,"helps ensure REUSE/license compliance in projects"
-A,vscodium-bin,"provides free/libre open source binaries of VSCode"
+,ansible,"is an IT automation platform"
 A,agru,"is a fast ansible-galaxy replacement"
 
-# Kubernetes
+# Containers & Kubernetes
+,docker,"is a container platform"
+,docker-compose,"is a tool for defining multi-container Docker applications"
+,docker-buildx,"is the Docker Buildx plugin"
 ,kubectl,"is the Kubernetes command-line tool"
 ,helm,"is the Kubernetes package manager"
 ,k9s,"is a terminal UI to interact with Kubernetes clusters"
 ,kind,"runs local Kubernetes clusters using Docker"
-
-# Security
-,arch-audit,"checks installed packages against Arch's CVE database"
-,firejail,"is a sandbox for untrusted applications"
-,lynis,"is a security auditing tool"
-,rkhunter,"is a rootkit hunter"
-,apparmor,"is a MAC security kernel module"
-
-# Network tools
-,nmap,"is a network exploration tool"
-,networkmanager-openvpn,"is the OpenVPN plugin for NetworkManager"
-,openbsd-netcat,"is the OpenBSD netcat"
-,tcpdump,"is a network packet analyzer"
-,wireshark-qt,"is a network protocol analyzer"
-,rclone,"is a cloud storage synchronization tool"
-,smbclient,"is an SMB/CIFS client"
-
-# Android
-,android-tools,"provides Android SDK platform tools"
-,scrcpy,"is an Android screen mirroring tool"
-A,simple-mtpfs,"enables mounting of cell phones"
 
 # Virtualization
 ,libvirt,"is a virtualization API"
@@ -95,26 +97,49 @@ A,simple-mtpfs,"enables mounting of cell phones"
 ,virt-viewer,"is a virtual machine viewer"
 A,waydroid,"is an Android container for Linux"
 
-# Games
-,steam,"is a gaming platform"
-,luanti,"is a voxel game and game creation platform"
-,gnome-chess,"is a chess game for GNOME"
+# Android
+,android-tools,"provides Android SDK platform tools"
+,scrcpy,"is an Android screen mirroring tool"
+A,simple-mtpfs,"enables mounting of cell phones"
+
+# Security
+,apparmor,"is a mandatory access control security framework"
+,arch-audit,"checks installed packages against Arch's CVE database"
+,firejail,"is a sandbox for untrusted applications"
+,lynis,"is a security auditing tool"
+,rkhunter,"is a rootkit hunter"
+,veracrypt,"is disk encryption software"
+
+# Network tools
+,bind,"provides DNS server and utilities"
+,unbound,"is a validating DNS resolver"
+,nmap,"is a network exploration tool"
+,networkmanager-openvpn,"is the OpenVPN plugin for NetworkManager"
+,openbsd-netcat,"is the OpenBSD netcat"
+,tcpdump,"is a network packet analyzer"
+,wireshark-qt,"is a network protocol analyzer"
+,rclone,"is a cloud storage synchronization tool"
+,smbclient,"is an SMB/CIFS client"
+,transmission-gtk,"is the BitTorrent client GTK+ interface"
 
 # Browsers
 ,firefox,"is a web browser"
 ,qutebrowser,"is a keyboard-driven web browser"
+,python-adblock,"is the Brave adblock python library for adblocking in qutebrowser"
 ,torbrowser-launcher,"is the Tor Browser launcher"
 
+# Communication
+,signal-desktop,"is the Signal messenger desktop app"
+,thunderbird,"is an email client"
+,newsboat,"is an RSS/Atom feed reader"
+
 # Media & productivity
-,libreoffice-still,"is a stable office suite"
+,elisa,"is a music player"
 ,mixxx,"is DJ software"
-,termusic,"is a terminal music player"
 ,nsxiv,"is Neo Simple X Image Viewer"
-,xournalpp,"is handwriting notetaking software"
-,veracrypt,"is disk encryption software"
 ,pdfjs,"is a PDF reader in JavaScript"
-,transmission-gtk,"is the BitTorrent client GTK+ interface"
-,ollama,"allows running large language models locally"
+,libreoffice-still,"is a stable office suite"
+,xournalpp,"is handwriting notetaking software"
 
 # LaTeX
 ,texlive-binextra,"provides extra TeX Live binaries"
@@ -122,13 +147,6 @@ A,waydroid,"is an Android container for Linux"
 ,texlive-latex,"is the LaTeX TeX Live distribution"
 ,texlive-latexextra,"provides extra LaTeX TeX Live packages"
 
-# Extra CLI
-,bc,"is a mathematics language used for calculations"
-,pigz,"is parallel gzip"
-,htop,"is an interactive process viewer"
-,nvtop,"is a GPU process monitor"
-,ncdu,"is a disk usage analyzer"
-,wev,"is a Wayland event viewer"
-,cpio,"copies files to/from archives"
-,arch-install-scripts,"provides Arch Linux installation scripts"
-,wlroots0.18,"is the wlroots Wayland compositor library"
+# Games
+,steam,"is a gaming platform"
+,gnome-chess,"is a chess game for GNOME"
