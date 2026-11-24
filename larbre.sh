@@ -367,34 +367,44 @@ server:
     interface: 127.0.0.1
     access-control: 127.0.0.1/32 allow
 
+    # DoT
     tls-upstream: yes
     tls-cert-bundle: "/etc/ssl/certs/ca-certificates.crt"
 
-    # DNSSEC disabled for captive portals
-    # auto-trust-anchor-file: "/var/lib/unbound/root.key"
+    # Privacy hardening
+    hide-identity: yes
+    hide-version: yes
+    use-caps-for-id: yes
+    qname-minimisation: yes
 
+    # Cache
     msg-cache-size: 50m
     rrset-cache-size: 100m
     serve-expired: yes
     prefetch: yes
 
+    # DNSSEC (désactivé pour captive portal)
+    # auto-trust-anchor-file: "/var/lib/unbound/root.key"
+
+    # Logging
     log-queries: no
     log-replies: no
 
+    # Local data
     local-data: "mabbox.bytel.fr. IN A 192.168.1.254"
-    local-data: "bonas. IN A 192.168.1.192"
+    local-data: "bonas. IN A 192.168.1.1"
 
 forward-zone:
     name: "."
     forward-tls-upstream: yes
 
-    # DNS4EU — profil protectif
-    forward-addr: 86.54.11.1@853#protective.joindns4.eu
-    forward-addr: 86.54.11.201@853#protective.joindns4.eu
+    # Primary : AdGuard DNS (pubs + traqueurs + malware + phishing)
+    forward-addr: 94.140.14.14@853#dns.adguard-dns.com
+    forward-addr: 94.140.15.15@853#dns.adguard-dns.com
 
-    # Secours : Cloudflare DoT
-    forward-addr: 1.1.1.1@853#one.one.one.one
-    forward-addr: 1.0.0.1@853#one.one.one.one
+    # Fallback : DNS4EU protectif (EU, pas de logs)
+    forward-addr: 86.54.11.1@853#protective.joindns4.eu
+    forward-addr: 86.54.11.201@853#protective.joindns4.eu   
 EOF
 unbound-checkconf /etc/unbound/unbound.conf || error "Invalid Unbound configuration."
 
