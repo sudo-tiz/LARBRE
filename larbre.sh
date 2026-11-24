@@ -361,38 +361,47 @@ echo "kernel.dmesg_restrict = 0" >/etc/sysctl.d/dmesg.conf
 # Setup battery monitoring if laptop
 setupbatterycheck
 
-# Setup dnsmasq with Quad9 and Mullvad server with DNS over TLS
-cat <<'EOF' >/etc/NetworkManager/dnsmasq.d/custom.conf
-# === DNS LOCAL ===
-listen-address=127.0.0.1
+# Setup Unbound with DNS-over-TLS forwarding
+cat <<'EOF' >/etc/unbound/unbound.conf
+server:
+    interface: 127.0.0.1
+    access-control: 127.0.0.1/32 allow
 
-# === CACHE ===
-cache-size=1000
+    tls-upstream: yes
+    tls-cert-bundle: "/etc/ssl/certs/ca-certificates.crt"
 
-# === DNSSEC (optionnel) ===
-# dnssec
+    # DNSSEC disabled for captive portals
+    # auto-trust-anchor-file: "/var/lib/unbound/root.key"
 
-# === PARALLELISATION ===
-dns-forward-max=500
+    msg-cache-size: 50m
+    rrset-cache-size: 100m
+    serve-expired: yes
+    prefetch: yes
 
-# === DOT (DNS over TLS) ===
-# QUAD9
-server=9.9.9.9#853 # Malware
-server=149.112.112.112#853 # Malware
-# MULLVAD
-server=194.242.2.5#853 # Ads + Trackers + Malware + Social media
-server=194.242.2.4#853 # Ads + Trackers + Malware
+    log-queries: no
+    log-replies: no
 
-# === LOCAL ENTRIES ===
-address=/mabbox.bytel.fr/192.168.1.254
-address=/bonas/192.168.1.192
+    local-data: "mabbox.bytel.fr. IN A 192.168.1.254"
+    local-data: "bonas. IN A 192.168.1.192"
+
+forward-zone:
+    name: "."
+    forward-tls-upstream: yes
+
+    # DNS4EU — profil protectif
+    forward-addr: 86.54.11.1@853#protective.joindns4.eu
+    forward-addr: 86.54.11.201@853#protective.joindns4.eu
+
+    # Secours : Cloudflare DoT
+    forward-addr: 1.1.1.1@853#one.one.one.one
+    forward-addr: 1.0.0.1@853#one.one.one.one
 EOF
+unbound-checkconf /etc/unbound/unbound.conf || error "Invalid Unbound configuration."
 
 # Setup NetworkManager.conf
 cat <<'EOF' >/etc/NetworkManager/NetworkManager.conf
 [main]
-dns=dnsmasq
-rc-manager=symlink
+dns=none
 
 [device]
 wifi.scan-rand-mac-address=yes
@@ -402,6 +411,12 @@ wifi.backend=iwd
 ethernet.cloned-mac-address=random
 wifi.cloned-mac-address=random
 EOF
+
+# Use Unbound for DNS and remove the previous dnsmasq configuration
+rm -f /etc/NetworkManager/dnsmasq.d/custom.conf /etc/resolv.conf
+echo 'nameserver 127.0.0.1' >/etc/resolv.conf
+systemctl restart NetworkManager || error "Failed to restart NetworkManager."
+systemctl enable --now unbound || error "Failed to start Unbound."
 
 # GTK dark theme
 gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'

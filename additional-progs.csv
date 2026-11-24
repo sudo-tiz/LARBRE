@@ -2,8 +2,8 @@
 
 # Boot themes
 ,plymouth,"is a boot splash framework"
-G,https://github.com/sudo-Tiz/minecraft-plymouth-theme.git,"is a minecraft plymouth theme"
-G,https://github.com/sudo-Tiz/minegrub-theme.git,"is a minecraft grub theme"
+G,https://github.com/nikp123/minecraft-plymouth-theme.git,"is a minecraft plymouth theme"
+G,https://github.com/sudo-Tiz/minegrub-world-sel-theme.git,"is a minecraft grub theme"
 
 # Device-specific (Asus 2-in-1)
 G,https://github.com/sudo-Tiz/asus-numpad.git,"is a numpad trackpad driver for asus laptops"
@@ -13,7 +13,11 @@ A,iio-hyprland-git,"is a daemon to enable automatic rotation using iio-proxy-sen
 ,squeekboard,"is an on-screen keyboard for Wayland"
 ,i2c-tools,"provides I2C bus tools"
 
-# Hardware tools
+# System monitoring
+,btop,"is a resource monitor"
+,htop,"is an interactive process viewer"
+,nvtop,"is a GPU process monitor"
+,ncdu,"is a disk usage analyzer"
 ,ddcutil,"controls external monitor settings via DDC/CI"
 ,dmidecode,"is a Desktop Management Interface table decoder"
 ,powertop,"is a power consumption analyzer"
@@ -57,12 +61,6 @@ A,iio-hyprland-git,"is a daemon to enable automatic rotation using iio-proxy-sen
 ,just,"is a command runner"
 ,bc,"is a mathematics language used for calculations"
 
-# System monitoring
-,btop,"is a resource monitor"
-,htop,"is an interactive process viewer"
-,nvtop,"is a GPU process monitor"
-,ncdu,"is a disk usage analyzer"
-
 # Archives
 ,7zip,"is a file archiver with high compression ratio"
 ,atool,"is an archive tool wrapper"
@@ -74,7 +72,6 @@ A,iio-hyprland-git,"is a daemon to enable automatic rotation using iio-proxy-sen
 # Editors & AI
 A,vscodium-bin,"provides free/libre open source binaries of VSCode"
 ,opencode,"is an AI coding agent for the terminal"
-,ollama,"allows running large language models locally"
 
 # Languages & build tools
 ,clang,"is a C language family frontend for LLVM"
