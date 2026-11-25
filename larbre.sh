@@ -165,49 +165,89 @@ installationloop() {
 installlibrewolfextensions() {
   policy_dir=/usr/lib/librewolf/distribution
   policy="$policy_dir/policies.json"
-  extensions=$(mktemp) || error "Could not create temporary extension settings."
-  cat >"$extensions" <<'EOF'
+  settings=$(mktemp) || error "Could not create temporary LibreWolf settings."
+  cat >"$settings" <<'EOF'
 {
-  "gdpr@cavi.au.dk": {
-    "install_url": "https://addons.mozilla.org/firefox/downloads/latest/consent-o-matic/latest.xpi",
-    "installation_mode": "normal_installed"
+  "extensions": {
+    "gdpr@cavi.au.dk": {
+      "install_url": "https://addons.mozilla.org/firefox/downloads/latest/consent-o-matic/latest.xpi",
+      "installation_mode": "normal_installed"
+    },
+    "pywalfox@frewacom.org": {
+      "install_url": "https://addons.mozilla.org/firefox/downloads/latest/pywalfox/latest.xpi",
+      "installation_mode": "normal_installed"
+    },
+    "sponsorBlocker@ajay.app": {
+      "install_url": "https://addons.mozilla.org/firefox/downloads/latest/sponsorblock/latest.xpi",
+      "installation_mode": "normal_installed"
+    },
+    "{7c7f6dea-3957-4bb9-9eec-2ef2b9e5bcec}": {
+      "install_url": "https://addons.mozilla.org/firefox/downloads/latest/ultimadark/latest.xpi",
+      "installation_mode": "normal_installed"
+    }
   },
-  "pywalfox@frewacom.org": {
-    "install_url": "https://addons.mozilla.org/firefox/downloads/latest/pywalfox/latest.xpi",
-    "installation_mode": "normal_installed"
-  },
-  "sponsorBlocker@ajay.app": {
-    "install_url": "https://addons.mozilla.org/firefox/downloads/latest/sponsorblock/latest.xpi",
-    "installation_mode": "normal_installed"
-  },
-  "{7c7f6dea-3957-4bb9-9eec-2ef2b9e5bcec}": {
-    "install_url": "https://addons.mozilla.org/firefox/downloads/latest/ultimadark/latest.xpi",
-    "installation_mode": "normal_installed"
+  "search": {
+    "Add": [
+      {
+        "Name": "Brave Search",
+        "URLTemplate": "https://search.brave.com/search?q={searchTerms}"
+      },
+      {
+        "Name": "ArchWiki",
+        "Alias": "aw",
+        "URLTemplate": "https://wiki.archlinux.org/index.php?search={searchTerms}"
+      },
+      {
+        "Name": "YouTube",
+        "Alias": "yt",
+        "URLTemplate": "https://www.youtube.com/results?search_query={searchTerms}"
+      },
+      {
+        "Name": "DuckDuckGo",
+        "Alias": "ddg",
+        "URLTemplate": "https://duckduckgo.com/?q={searchTerms}"
+      },
+      {
+        "Name": "DuckDuckGo No AI",
+        "URLTemplate": "https://noai.duckduckgo.com/?q={searchTerms}"
+      }
+    ],
+    "Default": "Brave Search",
+    "DefaultPrivate": "DuckDuckGo No AI"
   }
 }
 EOF
 
   mkdir -p "$policy_dir" || {
-    rm -f "$extensions"
+    rm -f "$settings"
     error "Could not create LibreWolf policy directory."
   }
   merged=$(mktemp "$policy_dir/policies.json.XXXXXX") || {
-    rm -f "$extensions"
+    rm -f "$settings"
     error "Could not create temporary LibreWolf policy."
   }
   if [ -f "$policy" ]; then
-    jq --slurpfile extensions "$extensions" \
-      '.policies.ExtensionSettings = ((.policies.ExtensionSettings // {}) + $extensions[0])' \
+    jq --slurpfile settings "$settings" '
+      .policies.ExtensionSettings = ((.policies.ExtensionSettings // {}) + $settings[0].extensions) |
+      .policies.SearchEngines = (
+        (.policies.SearchEngines // {}) as $current |
+        $current + $settings[0].search |
+        .Add = (
+          (($current.Add // []) | map(select(.Name as $name | ([$settings[0].search.Add[].Name] | index($name)) == null))) +
+          $settings[0].search.Add
+        )
+      )
+    ' \
       "$policy" >"$merged"
   else
-    jq -n --slurpfile extensions "$extensions" \
-      '{policies: {ExtensionSettings: $extensions[0]}}' >"$merged"
+    jq -n --slurpfile settings "$settings" \
+      '{policies: {ExtensionSettings: $settings[0].extensions, SearchEngines: $settings[0].search}}' >"$merged"
   fi || {
-    rm -f "$extensions" "$merged"
-    error "Could not merge LibreWolf extension settings."
+    rm -f "$settings" "$merged"
+    error "Could not merge LibreWolf settings."
   }
 
-  rm -f "$extensions"
+  rm -f "$settings"
   chmod 644 "$merged" && mv "$merged" "$policy" || {
     rm -f "$merged"
     error "Could not install LibreWolf policy."
