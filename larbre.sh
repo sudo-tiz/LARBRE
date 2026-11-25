@@ -162,6 +162,58 @@ installationloop() {
   done </tmp/progs.csv
 }
 
+installlibrewolfextensions() {
+  policy_dir=/usr/lib/librewolf/distribution
+  policy="$policy_dir/policies.json"
+  extensions=$(mktemp) || error "Could not create temporary extension settings."
+  cat >"$extensions" <<'EOF'
+{
+  "gdpr@cavi.au.dk": {
+    "install_url": "https://addons.mozilla.org/firefox/downloads/latest/consent-o-matic/latest.xpi",
+    "installation_mode": "normal_installed"
+  },
+  "pywalfox@frewacom.org": {
+    "install_url": "https://addons.mozilla.org/firefox/downloads/latest/pywalfox/latest.xpi",
+    "installation_mode": "normal_installed"
+  },
+  "sponsorBlocker@ajay.app": {
+    "install_url": "https://addons.mozilla.org/firefox/downloads/latest/sponsorblock/latest.xpi",
+    "installation_mode": "normal_installed"
+  },
+  "{7c7f6dea-3957-4bb9-9eec-2ef2b9e5bcec}": {
+    "install_url": "https://addons.mozilla.org/firefox/downloads/latest/ultimadark/latest.xpi",
+    "installation_mode": "normal_installed"
+  }
+}
+EOF
+
+  mkdir -p "$policy_dir" || {
+    rm -f "$extensions"
+    error "Could not create LibreWolf policy directory."
+  }
+  merged=$(mktemp "$policy_dir/policies.json.XXXXXX") || {
+    rm -f "$extensions"
+    error "Could not create temporary LibreWolf policy."
+  }
+  if [ -f "$policy" ]; then
+    jq --slurpfile extensions "$extensions" \
+      '.policies.ExtensionSettings = ((.policies.ExtensionSettings // {}) + $extensions[0])' \
+      "$policy" >"$merged"
+  else
+    jq -n --slurpfile extensions "$extensions" \
+      '{policies: {ExtensionSettings: $extensions[0]}}' >"$merged"
+  fi || {
+    rm -f "$extensions" "$merged"
+    error "Could not merge LibreWolf extension settings."
+  }
+
+  rm -f "$extensions"
+  chmod 644 "$merged" && mv "$merged" "$policy" || {
+    rm -f "$merged"
+    error "Could not install LibreWolf policy."
+  }
+}
+
 putgitrepo() {
   whiptail --infobox "Downloading and installing config files..." 7 60
   [ -z "$3" ] && branch="master" || branch="$repobranch"
@@ -306,6 +358,7 @@ $aurhelper -Y --save --devel
 # To add extra packages, append a URL or local path to $progsfiles before running:
 #   progsfiles="$progsfiles\nhttps://example.com/foo.csv"
 installationloop
+installlibrewolfextensions
 
 # Install dotfiles
 putgitrepo "$dotfilesrepo" "/home/$name" "$repobranch" ||
