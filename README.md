@@ -69,11 +69,13 @@ TAG,PACKAGE,DESCRIPTION
 ,firefox,"is a web browser"
 A,yay,"is an AUR helper"
 G,https://github.com/user/repo.git,"is a git program"
+G:main,https://github.com/user/repo.git,"is a git program on the main branch"
 ```
 
 - Empty TAG = official repo
 - `A` = AUR
 - `G` = Git repository (make install)
+- `G:branch` = Git repository on the named branch; plain `G` uses the repository's default branch
 
 ## Related
 

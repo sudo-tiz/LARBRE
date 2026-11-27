@@ -118,13 +118,23 @@ gitmakeinstall() {
   progname="${1##*/}"
   progname="${progname%.git}"
   dir="$repodir/$progname"
+  branch=$3
   whiptail --title "LARBS Installation" \
     --infobox "Installing \`$progname\` ($n of $total) via \`git\` and \`make\`. $2" 8 70
-  sudo -u "$name" git -C "$repodir" clone --depth 1 --single-branch \
-    --no-tags -q "$1" "$dir" ||
+  if [ -n "$branch" ]; then
+    sudo -u "$name" git -C "$repodir" clone --depth 1 --single-branch \
+      --no-tags -q --branch "$branch" "$1" "$dir"
+  else
+    sudo -u "$name" git -C "$repodir" clone --depth 1 --single-branch \
+      --no-tags -q "$1" "$dir"
+  fi ||
     {
       cd "$dir" || return 1
-      sudo -u "$name" git pull --force origin master
+      if [ -n "$branch" ]; then
+        sudo -u "$name" git pull --force origin "$branch"
+      else
+        sudo -u "$name" git pull --force
+      fi
     }
   cd "$dir" || exit 1
   if [ -f justfile ] || [ -f Justfile ]; then
@@ -157,6 +167,8 @@ installationloop() {
     case "$tag" in
     "A") aurinstall "$program" "$comment" ;;
     "G") gitmakeinstall "$program" "$comment" ;;
+    "G:") printf "ERROR: Missing branch for %s\n" "$program" >&2 ;;
+    G:*) gitmakeinstall "$program" "$comment" "${tag#G:}" ;;
     *) maininstall "$program" "$comment" ;;
     esac
   done </tmp/progs.csv

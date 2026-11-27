@@ -3,7 +3,7 @@
 # Boot themes
 ,plymouth,"is a boot splash framework"
 G,https://github.com/nikp123/minecraft-plymouth-theme.git,"is a minecraft plymouth theme"
-G,https://github.com/sudo-Tiz/minegrub-world-sel-theme.git,"is a minecraft grub theme"
+G:dev,https://github.com/Lxtharia/minegrub-world-sel-theme.git,"is a minecraft grub theme"
 
 # Device-specific (Asus 2-in-1)
 G,https://github.com/sudo-Tiz/asus-numpad.git,"is a numpad trackpad driver for asus laptops"
